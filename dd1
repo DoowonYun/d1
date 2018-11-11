@@ -1,0 +1,43 @@
+import requests
+r = requests.get('https://www.vox.com/2018/9/25/17901082/trump-un-2018-speech-full-text')
+r.encoding = 'utf8'
+data = str(r.text)
+begin = data.find('America is governed')
+end = data.rfind('Thank you. (Applause.)')
+end = end+22
+print(data[begin:end])
+print('')
+print('')
+print('')
+words = data[begin:end]
+words = words.replace(',',' ')
+words = words.replace('”',' ')
+words = words.replace('“',' ')
+words = words.replace('</p>',' ')
+words = words.replace('.',' ')
+words = words.replace('’',' ')
+words = words.replace('<a href="https://www vox com/policy-and-politics/2017/9/19/16333290/trump-full-speech-transcript-un-general-assembly">',' ')
+words = words.replace('</a>',' ')
+words = words.replace('<hr class="p-entry-hr" id="FWI34g">',' ')
+words = words.replace('[',' ')
+words = words.replace(']',' ')
+words = words.replace('">',' ')
+words = words.replace('<p id="',' ')
+print(words)
+mydict = {}
+b = words.split()
+print('b',b)
+for w in b:
+    if w in mydict:
+        mydict[w] += 1
+    else:
+        mydict[w] = 1
+for k in sorted(mydict, key=mydict.__getitem__, reverse=True):
+
+    print('단어 출현빈도 분석','%s: %s' %(k, mydict[k]))
+
+c = sorted(mydict, key=mydict.__getitem__, reverse=True)
+
+print(type(c))
+
+print('최다빈도 단어 20개',c[:19])
